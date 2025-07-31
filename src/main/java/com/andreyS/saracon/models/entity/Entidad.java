@@ -6,6 +6,8 @@ import lombok.*;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,51 +18,43 @@ public class Entidad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_entidad")
     private Long idEntidad;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_entidad", nullable = false)
     @ToString.Exclude
+    @JsonIgnore
     private TipoEntidad tipoEntidad;
 
-    @Column(name = "nombre", nullable = false)
     private String nombre;
-
-    @Column(name = "email", unique = true)
     private String email;
-
-    @Column(name = "telefono")
     private String telefono;
-
-    @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "entidad")
     @ToString.Exclude
     private PersonaNatural personaNatural;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "entidad")
     @ToString.Exclude
     private Empresa empresa;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "entidadReporta")
     @ToString.Exclude
     private List<Reporte> reportesEnviados;
 
-    @OneToMany(mappedBy = "entidadDestino")
-    @ToString.Exclude
-    private List<Reporte> reportesRecibidos;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "entidad")
     @ToString.Exclude
     private List<Notificacion> notificaciones;
 
-    @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @PrePersist

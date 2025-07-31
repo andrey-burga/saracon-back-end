@@ -3,6 +3,7 @@ package com.andreyS.saracon.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andreyS.saracon.models.request.LoginRequest;
+import com.andreyS.saracon.models.results.AuthResult;
 import com.andreyS.saracon.models.service.AuthServiceIface;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,22 +31,20 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
-        boolean authenticated = authServiceIface.authenticateUser(
+        AuthResult authenticated = authServiceIface.authenticateUser(
                 loginRequest.getEmail(),
                 loginRequest.getPassword());
 
-        System.out.println("noseeee: " + authenticated);
-        System.out.println("ema: " + loginRequest.getEmail());
-        System.out.println("pass: " + loginRequest.getPassword());
-
         Map<String, String> response = new HashMap<>();
 
-        if (authenticated) {
+        if (authenticated.isAuthenticated()) {
             response.put("message", "Login exitoso");
+            response.put("tipoUsuario", authenticated.getUserType());
             return ResponseEntity.ok().body(response);
         } else {
             response.put("message", "Credenciales inválidas");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
+
 }

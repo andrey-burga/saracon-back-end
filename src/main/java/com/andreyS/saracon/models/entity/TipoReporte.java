@@ -19,7 +19,7 @@ public class TipoReporte {
 
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
-
+    
     @OneToMany(mappedBy = "tipoReporte")
     @ToString.Exclude
     private List<Reporte> reportes;

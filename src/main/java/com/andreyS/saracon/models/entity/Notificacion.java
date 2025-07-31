@@ -2,9 +2,7 @@ package com.andreyS.saracon.models.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.Fetch;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,10 +20,10 @@ public class Notificacion {
     @Column(name = "id_notificacion")
     private Long idNotificacion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_entidad", nullable = false)
     @ToString.Exclude
-    @JsonIgnore
+    @JsonIgnoreProperties({ "tipoEntidad" })
     private Entidad entidad;
 
     @Column(name = "titulo", nullable = false)
@@ -42,5 +40,10 @@ public class Notificacion {
 
     @Column(name = "fecha_vencimiento")
     private LocalDateTime fechaVencimiento;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaNotificacion = LocalDateTime.now();
+    }
 
 }

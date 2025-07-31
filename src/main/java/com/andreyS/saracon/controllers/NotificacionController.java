@@ -3,11 +3,15 @@ package com.andreyS.saracon.controllers;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.andreyS.saracon.models.entity.Entidad;
 import com.andreyS.saracon.models.entity.Notificacion;
 import com.andreyS.saracon.models.service.SaraconServiceIface;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/notification")
@@ -33,6 +37,17 @@ public class NotificacionController {
 
         return saraconServiceIface.getAllNotificationOld(ahora);
 
+    }
+
+    @PostMapping
+    public ResponseEntity<?> postNotification(@RequestBody Notificacion notificacion) {
+
+        Entidad entidad = saraconServiceIface.getEntidadByEmail(notificacion.getEntidad().getEmail());
+
+        notificacion.setEntidad(entidad);
+        saraconServiceIface.postNotification(notificacion);
+
+        return ResponseEntity.ok().build();
     }
 
 }

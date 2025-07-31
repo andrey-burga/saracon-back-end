@@ -1,6 +1,9 @@
 package com.andreyS.saracon.models.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,25 +23,19 @@ public class Reporte {
     @ManyToOne
     @JoinColumn(name = "id_entidad", nullable = false)
     @ToString.Exclude
+    @JsonIgnoreProperties({ "tipoEntidad" })
     private Entidad entidadReporta;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_reporte", nullable = false)
     @ToString.Exclude
+    @JsonIgnoreProperties({ "reportes" })
     private TipoReporte tipoReporte;
-
-    @ManyToOne
-    @JoinColumn(name = "id_entidad_destino")
-    @ToString.Exclude
-    private Entidad entidadDestino;
 
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
     @Column(name = "fecha_reporte")
-    private LocalDateTime fechaReporte;
-
-    @Column(name = "estado")
-    private String estado;
+    private LocalDate fechaReporte;
 
 }

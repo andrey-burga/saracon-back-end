@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.andreyS.saracon.models.dao.*;
 import com.andreyS.saracon.models.entity.*;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class SaraconService implements SaraconServiceIface {
 
@@ -19,12 +21,19 @@ public class SaraconService implements SaraconServiceIface {
 
     private final EmpresaDAOIface empresaDAOIface;
 
+    private final ReporteDAOIface reporteDAOIface;
+
+    private final TipoReporteDAOIface tipoReporteDAOIface;
+
     public SaraconService(NotificacionDAOIface notificacionDAOIface, EmpresaDAOIface empresaDAOIface,
-            PersonaNaturalDAOIface personaNaturalDAOIface, EntidadDAOIface entidadDAOIface) {
+            PersonaNaturalDAOIface personaNaturalDAOIface, EntidadDAOIface entidadDAOIface,
+            ReporteDAOIface reporteDAOIface, TipoReporteDAOIface tipoReporteDAOIface) {
         this.notificacionDAOIface = notificacionDAOIface;
         this.empresaDAOIface = empresaDAOIface;
         this.entidadDAOIface = entidadDAOIface;
         this.personaNaturalDAOIface = personaNaturalDAOIface;
+        this.reporteDAOIface = reporteDAOIface;
+        this.tipoReporteDAOIface = tipoReporteDAOIface;
     }
 
     @Override
@@ -52,4 +61,30 @@ public class SaraconService implements SaraconServiceIface {
         empresaDAOIface.save(empresa);
     }
 
+    @Override
+    public void postReport(Reporte reporte) {
+        reporteDAOIface.save(reporte);
+    }
+
+    @Override
+    public Entidad getEntidadByEmail(String email) {
+        return entidadDAOIface.findByEmail(email);
+
+    }
+
+    @Override
+    public TipoReporte getTipoReportById(Integer id) {
+        return tipoReporteDAOIface.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("TipoReporte no encontrado con id " + id));
+    }
+
+    @Override
+    public List<Reporte> getAllReports() {
+        return reporteDAOIface.findAll();
+    }
+
+    @Override
+    public void postNotification(Notificacion notificacion) {
+        notificacionDAOIface.save(notificacion);
+    }
 }

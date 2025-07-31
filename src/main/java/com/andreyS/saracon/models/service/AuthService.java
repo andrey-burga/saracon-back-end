@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.andreyS.saracon.models.dao.EntidadDAOIface;
 import com.andreyS.saracon.models.entity.Entidad;
+import com.andreyS.saracon.models.results.AuthResult;
 
 @Service
 public class AuthService implements AuthServiceIface {
@@ -15,19 +16,14 @@ public class AuthService implements AuthServiceIface {
     }
 
     @Override
-    public boolean authenticateUser(String email, String password) {
-
+    public AuthResult authenticateUser(String email, String password) {
         Entidad entidad = entidadDaoIface.findByEmail(email);
 
-        if (entidad != null) {
-            System.out.println(entidad.getPassword().equals(password));
-            if (entidad.getPassword().equals(password)) {
-                return true;
-            }
-
+        if (entidad != null && entidad.getPassword().equals(password)) {
+            return new AuthResult(true, entidad.getTipoEntidad().getDescripcion());
         }
-        return false;
 
+        return new AuthResult(false, null);
     }
 
     @Override
