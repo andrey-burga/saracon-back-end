@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
@@ -14,18 +13,18 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "tiporeporte")
-public class TipoReporte {
+@Table(name = "tiponotificacion")
+public class TipoNotificacion {
 
     @Id
-    @Column(name = "id_tipo_reporte")
-    private Integer idTipoReporte;
+    @Column(name = "id_tipo_notificacion")
+    private Integer idTipoNotificacion;
 
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
 
-    @OneToMany(mappedBy = "tipoReporte")
-    @JsonManagedReference("tipo-reporte")
-    private List<Report> reportes;
+    @OneToMany(mappedBy = "tipoNotificacion")
+    @JsonManagedReference("tipo-notificacion")
+    private List<Notificacion> notificaciones;
 
 }

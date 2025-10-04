@@ -62,7 +62,7 @@ public class SaraconService implements SaraconServiceIface {
     }
 
     @Override
-    public void postReport(Reporte reporte) {
+    public void postReport(Report reporte) {
         reporteDAOIface.save(reporte);
     }
 
@@ -79,7 +79,7 @@ public class SaraconService implements SaraconServiceIface {
     }
 
     @Override
-    public List<Reporte> getAllReports() {
+    public List<Report> getAllReports() {
         return reporteDAOIface.findAll();
     }
 

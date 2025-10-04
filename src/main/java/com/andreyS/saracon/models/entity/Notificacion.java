@@ -2,7 +2,8 @@ package com.andreyS.saracon.models.entity;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,10 +21,10 @@ public class Notificacion {
     @Column(name = "id_notificacion")
     private Long idNotificacion;
 
+    // Notificacion.java
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_entidad", nullable = false)
-    @ToString.Exclude
-    @JsonIgnoreProperties({ "tipoEntidad" })
+    @JsonBackReference("entidad-notificacion")
     private Entidad entidad;
 
     @Column(name = "titulo", nullable = false)
@@ -35,8 +36,10 @@ public class Notificacion {
     @Column(name = "fecha_notificacion")
     private LocalDateTime fechaNotificacion;
 
-    @Column(name = "tipo_notificacion")
-    private String tipoNotificacion;
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_notificacion", nullable = false)
+    @JsonBackReference("tipo-notificacion")
+    private TipoNotificacion tipoNotificacion;
 
     @Column(name = "fecha_vencimiento")
     private LocalDateTime fechaVencimiento;

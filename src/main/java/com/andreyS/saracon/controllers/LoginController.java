@@ -13,13 +13,11 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/login")
-@CrossOrigin(origins = "*")
 public class LoginController {
 
     private final AuthServiceIface authServiceIface;
@@ -30,7 +28,7 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-
+        System.out.println(loginRequest);
         AuthResult authenticated = authServiceIface.authenticateUser(
                 loginRequest.getEmail(),
                 loginRequest.getPassword());

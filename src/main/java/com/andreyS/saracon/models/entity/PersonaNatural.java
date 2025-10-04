@@ -2,6 +2,8 @@ package com.andreyS.saracon.models.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -22,6 +24,7 @@ public class PersonaNatural {
     @MapsId
     @JoinColumn(name = "id_entidad")
     @ToString.Exclude
+
     private Entidad entidad;
 
     @Column(name = "documento_identidad", nullable = false, unique = true)

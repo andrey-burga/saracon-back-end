@@ -11,7 +11,6 @@ import com.andreyS.saracon.models.service.SaraconServiceIface;
 
 @RestController
 @RequestMapping("/entidad")
-@CrossOrigin(origins = "*")
 public class EntidadController {
 
     private final SaraconServiceIface saraconServiceIface;

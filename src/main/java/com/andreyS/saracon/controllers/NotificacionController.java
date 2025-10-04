@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.andreyS.saracon.models.entity.Entidad;
 import com.andreyS.saracon.models.entity.Notificacion;
+
 import com.andreyS.saracon.models.service.SaraconServiceIface;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/notification")
-@CrossOrigin(origins = "*")
 public class NotificacionController {
 
     private final SaraconServiceIface saraconServiceIface;
@@ -26,8 +23,7 @@ public class NotificacionController {
     }
 
     @GetMapping
-    public List<Notificacion> getAllNotification() {
-
+    public List<Notificacion> getAllNotificaciones() {
         return saraconServiceIface.getAllNotification(ahora);
 
     }
@@ -38,15 +34,16 @@ public class NotificacionController {
         return saraconServiceIface.getAllNotificationOld(ahora);
 
     }
+ 
 
     @PostMapping
-    public ResponseEntity<?> postNotification(@RequestBody Notificacion notificacion) {
+    public ResponseEntity<?> postReport(@RequestBody Notificacion notificacion) {
+        System.out.println(notificacion);
 
         Entidad entidad = saraconServiceIface.getEntidadByEmail(notificacion.getEntidad().getEmail());
-
         notificacion.setEntidad(entidad);
         saraconServiceIface.postNotification(notificacion);
-
+        
         return ResponseEntity.ok().build();
     }
 

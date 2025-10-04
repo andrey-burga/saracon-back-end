@@ -6,7 +6,8 @@ import lombok.*;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +24,6 @@ public class Entidad {
     @ManyToOne
     @JoinColumn(name = "id_tipo_entidad", nullable = false)
     @ToString.Exclude
-    @JsonIgnore
     private TipoEntidad tipoEntidad;
 
     private String nombre;
@@ -34,27 +34,24 @@ public class Entidad {
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "entidad")
     @ToString.Exclude
     private PersonaNatural personaNatural;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "entidad")
     @ToString.Exclude
     private Empresa empresa;
 
-    @JsonIgnore
+    // Entidad.java
     @OneToMany(mappedBy = "entidadReporta")
-    @ToString.Exclude
-    private List<Reporte> reportesEnviados;
+    @JsonManagedReference("entidad-reporte")
+    private List<Report> reportesEnviados;
 
-    @JsonIgnore
+    // Entidad.java
     @OneToMany(mappedBy = "entidad")
-    @ToString.Exclude
+    @JsonManagedReference("entidad-notificacion")
     private List<Notificacion> notificaciones;
 
-    @JsonIgnore
     private String password;
 
     @PrePersist
